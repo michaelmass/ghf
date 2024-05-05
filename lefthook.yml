@@ -1,0 +1,16 @@
+pre-commit:
+  commands:
+    format:
+      run: biome format --no-errors-on-unmatched {staged_files}
+    lint:
+      run: biome lint --no-errors-on-unmatched {staged_files}
+    typecheck:
+      glob: '*.{ts,tsx}'
+      run: deno check ./src/mod.ts ./src/cli.ts
+
+format:
+  commands:
+    format:
+      run: biome format --write {staged_files}
+    lint:
+      run: biome lint --apply-unsafe {staged_files}

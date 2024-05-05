@@ -15,6 +15,5 @@ await new Command()
   .command('apply', 'apply the git hidden files')
   .action(() => {
     const config = getConfig()
-    console.log('apply', config)
   })
   .parse(Deno.args)
