@@ -21,6 +21,6 @@ await new Command()
   .action(async options => {
     const config = getConfig(options)
     const settings = await loadSettings(config.configFile)
-    await planRules(settings)
+    const plans = await planRules(settings)
   })
   .parse(Deno.args)
