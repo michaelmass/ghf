@@ -3,9 +3,13 @@ import { z } from './deps.ts'
 export const configSchema = z
   .object({
     WORKDIR: z.string().default('.'),
+    DRY_RUN: z.string().default('false'),
+    CONFIG_FILE: z.string().default('.ghf'),
   })
-  .transform(({ WORKDIR }) => ({
-    workdir: WORKDIR,
+  .transform(({ WORKDIR, DRY_RUN, CONFIG_FILE }) => ({
+    dir: WORKDIR,
+    dryRun: DRY_RUN === 'true',
+    configFile: CONFIG_FILE,
   }))
 
 export type Config = z.infer<typeof configSchema>
