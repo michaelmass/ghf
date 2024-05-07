@@ -22,5 +22,8 @@ await new Command()
     const config = getConfig(options)
     const settings = await loadSettings(config.configFile)
     const plans = await planRules(settings)
+
+    for (const plan of plans) {
+    }
   })
   .parse(Deno.args)
