@@ -1,5 +1,5 @@
-import { exists, z } from '../deps.ts'
-import { plan, type Plan } from '../plan.ts'
+import { z } from '../deps.ts'
+import type { FileSystem } from '../filesystem.ts'
 import { contentSchema, loadContent } from '../schemas.ts'
 
 export const ruleLinesSchema = z.object({
@@ -10,19 +10,19 @@ export const ruleLinesSchema = z.object({
 
 type RuleLines = z.infer<typeof ruleLinesSchema>
 
-export const ruleLinesFunc = async ({ content, path }: RuleLines): Promise<Plan[]> => {
+export const ruleLinesFunc = async ({ content, path }: RuleLines, fileSystem: FileSystem): Promise<void> => {
   const newContent = await loadContent(content)
+  const oldContent = await fileSystem.read(path)
 
-  if (!(await exists(path))) {
-    return [plan.create(path, newContent)]
+  if (!oldContent) {
+    fileSystem.write(path, newContent)
+    return
   }
 
   const newLines = newContent
     .split('\n')
     .map(line => line.trim())
     .filter(Boolean)
-
-  const oldContent = await Deno.readTextFile(path)
 
   const oldLines = oldContent
     .split('\n')
@@ -38,9 +38,8 @@ export const ruleLinesFunc = async ({ content, path }: RuleLines): Promise<Plan[
 
   for (const newLine of newLines) {
     if (!oldLines[newLine]) {
-      return [plan.update(path, oldContent, `${oldContent.trim()}\n${newContent.trim()}\n`)]
+      fileSystem.write(path, `${oldContent.trim()}\n${newContent.trim()}\n`)
+      return
     }
   }
-
-  return []
 }

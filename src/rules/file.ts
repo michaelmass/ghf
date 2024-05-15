@@ -1,5 +1,5 @@
-import { z, exists } from '../deps.ts'
-import { type Plan, plan } from '../plan.ts'
+import { z } from '../deps.ts'
+import type { FileSystem } from '../filesystem.ts'
 import { contentSchema, loadContent } from '../schemas.ts'
 
 export const ruleFileSchema = z.object({
@@ -10,18 +10,7 @@ export const ruleFileSchema = z.object({
 
 type RuleFile = z.infer<typeof ruleFileSchema>
 
-export const ruleFileFunc = async ({ content, path }: RuleFile): Promise<Plan[]> => {
+export const ruleFileFunc = async ({ content, path }: RuleFile, fileSystem: FileSystem) => {
   const newContent = await loadContent(content)
-
-  if (!(await exists(path))) {
-    return [plan.create(path, newContent)]
-  }
-
-  const oldContent = await Deno.readTextFile(path)
-
-  if (newContent !== oldContent) {
-    return [plan.update(path, oldContent, newContent)]
-  }
-
-  return []
+  fileSystem.write(path, newContent)
 }
