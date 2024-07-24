@@ -10,12 +10,12 @@ export const ruleLinesSchema = z.object({
 
 type RuleLines = z.infer<typeof ruleLinesSchema>
 
-export const ruleLinesFunc = async ({ content, path }: RuleLines, fileSystem: FileSystem): Promise<void> => {
+export const ruleLinesFunc = async ({ content, path }: RuleLines, fs: FileSystem): Promise<void> => {
   const newContent = await loadContent(content)
-  const oldContent = await fileSystem.read(path)
+  const oldContent = await fs.fetch(path)
 
   if (!oldContent) {
-    fileSystem.write(path, newContent)
+    fs.write(path, newContent)
     return
   }
 
@@ -38,7 +38,7 @@ export const ruleLinesFunc = async ({ content, path }: RuleLines, fileSystem: Fi
 
   for (const newLine of newLines) {
     if (!oldLines[newLine]) {
-      fileSystem.write(path, `${oldContent.trim()}\n${newContent.trim()}\n`)
+      fs.write(path, `${oldContent.trim()}\n${newContent.trim()}\n`)
       return
     }
   }

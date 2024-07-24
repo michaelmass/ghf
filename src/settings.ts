@@ -3,6 +3,7 @@ import { parse } from './parse.ts'
 import { ruleSchema } from './rules/index.ts'
 
 export const settingsSchema = z.object({
+  extends: z.string().array().optional(),
   presets: z.record(ruleSchema.array()),
   rules: ruleSchema.array(),
 })

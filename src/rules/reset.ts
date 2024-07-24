@@ -8,7 +8,6 @@ export const ruleResetSchema = z.object({
 
 type RuleReset = z.infer<typeof ruleResetSchema>
 
-export const ruleResetFunc = ({ path }: RuleReset, fs: FileSystem) => {
-  const newContent = ''
-  fs.write(path, newContent)
+export const ruleResetFunc = async ({ path }: RuleReset, fs: FileSystem) => {
+  await fs.reset(path)
 }

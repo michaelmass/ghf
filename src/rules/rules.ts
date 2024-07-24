@@ -1,13 +1,36 @@
 import { exists, z } from '../deps.ts'
 import type { Settings } from '../settings.ts'
 import { ruleFileFunc, ruleFileSchema } from './file.ts'
-import { rulePresetFunc, rulePresetSchema } from './preset.ts'
 import { ruleLinesFunc, ruleLinesSchema } from './lines.ts'
 import type { Plan } from '../plan.ts'
 import { ruleResetFunc, ruleResetSchema } from './reset.ts'
 import { FileSystem } from '../filesystem.ts'
+import { ruleDeleteFunc, ruleDeleteSchema } from './delete.ts'
 
-export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema])
+const rulePresetSchema = z.object({
+  type: z.literal('preset'),
+  name: z.string(),
+})
+
+type PresetRule = z.infer<typeof rulePresetSchema>
+
+const rulePresetFunc = async ({ name }: PresetRule, fs: FileSystem, settings: Settings) => {
+  const preset = settings.presets[name]
+
+  if (!preset) {
+    throw new Error(`Preset not found: ${name}`)
+  }
+
+  for (const rule of preset) {
+    if (rule.type === 'preset') {
+      throw new Error('Presets cannot contain other presets')
+    }
+
+    await applyRule(rule, fs, settings)
+  }
+}
+
+export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema])
 
 type Rule = z.infer<typeof ruleSchema>
 type RuleType = Rule['type']
@@ -16,9 +39,10 @@ type RuleFunc<T extends RuleType> = (rule: ExtractRule<T>, fileSystem: FileSyste
 
 const ruleFuncs = {
   file: ruleFileFunc,
-  preset: rulePresetFunc,
   lines: ruleLinesFunc,
   reset: ruleResetFunc,
+  delete: ruleDeleteFunc,
+  preset: rulePresetFunc,
 } satisfies { [key in RuleType]: RuleFunc<key> }
 
 export const planRules = async (settings: Settings): Promise<Plan[]> => {
@@ -29,7 +53,9 @@ export const planRules = async (settings: Settings): Promise<Plan[]> => {
     await applyRule(rule, fileSystem, settings)
   }
 
-  for (const [path, content] of fileSystem.entries()) {
+  const fileEntries = await fileSystem.entries()
+
+  for (const [path, content] of fileEntries) {
     if (content === null) {
       plans.push({ type: 'remove', path })
       continue

@@ -10,7 +10,14 @@ export const ruleFileSchema = z.object({
 
 type RuleFile = z.infer<typeof ruleFileSchema>
 
-export const ruleFileFunc = async ({ content, path }: RuleFile, fileSystem: FileSystem) => {
+export const ruleFileFunc = async ({ content, path }: RuleFile, fs: FileSystem) => {
   const newContent = await loadContent(content)
-  fileSystem.write(path, newContent)
+
+  const oldContent = await fs.fetch(path)
+
+  if (oldContent === newContent) {
+    return
+  }
+
+  await fs.write(path, newContent)
 }
