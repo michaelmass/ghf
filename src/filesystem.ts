@@ -43,16 +43,14 @@ export const FileSystem = (): FileSystem => {
 
   return {
     fetch: async (path: string) => fileSystem[path] ?? (await Deno.readTextFile(path).catch(() => undefined)),
+    reset: (path: string) => void delete fileSystem[path],
+    entries: () => Object.entries(fileSystem),
+    read: (path: string) => fileSystem[path],
     write: (path: string, content: string) => {
       fileSystem[path] = content
     },
     delete: (path: string) => {
       fileSystem[path] = null
     },
-    reset: (path: string) => {
-      delete fileSystem[path]
-    },
-    entries: () => Object.entries(fileSystem),
-    read: (path: string) => fileSystem[path],
   }
 }

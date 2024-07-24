@@ -4,17 +4,15 @@ export const TestFileSystem = (records: Record<string, string | null> = {}): Fil
   const fileSystem: Record<string, string | null> = {}
 
   return {
+    entries: () => Object.entries(fileSystem),
+    read: (path: string) => fileSystem[path],
     fetch: (path: string) => fileSystem[path] ?? records[path] ?? undefined,
+    reset: (path: string) => void delete fileSystem[path],
     write: (path: string, content: string) => {
       fileSystem[path] = content
     },
     delete: (path: string) => {
       fileSystem[path] = null
     },
-    reset: (path: string) => {
-      delete fileSystem[path]
-    },
-    entries: () => Object.entries(fileSystem),
-    read: (path: string) => fileSystem[path],
   }
 }
