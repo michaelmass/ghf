@@ -15,14 +15,9 @@ export const ruleLinesFunc = async ({ content, path }: RuleLines, fs: FileSystem
   const oldContent = await fs.fetch(path)
 
   if (!oldContent) {
-    fs.write(path, newContent)
+    await fs.write(path, newContent)
     return
   }
-
-  const newLines = newContent
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
 
   const oldLines = oldContent
     .split('\n')
@@ -36,10 +31,24 @@ export const ruleLinesFunc = async ({ content, path }: RuleLines, fs: FileSystem
       {} as Record<string, boolean>,
     )
 
+  const newLines = newContent
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+
+  let value = oldContent
+  let modified = false
+
   for (const newLine of newLines) {
     if (!oldLines[newLine]) {
-      fs.write(path, `${oldContent.trim()}\n${newContent.trim()}\n`)
-      return
+      modified = true
+      value = `${value.trim()}\n${newLine.trim()}`
     }
   }
+
+  if (!modified) {
+    return
+  }
+
+  await fs.write(path, `${value}\n`)
 }

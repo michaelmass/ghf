@@ -4,7 +4,7 @@ export const configSchema = z
   .object({
     WORKDIR: z.string().default('.'),
     DRY_RUN: z.string().default('false'),
-    CONFIG_FILE: z.string().default('.ghf'),
+    CONFIG_FILE: z.string().default('.ghf.json'),
   })
   .transform(({ WORKDIR, DRY_RUN, CONFIG_FILE }) => ({
     dir: WORKDIR,

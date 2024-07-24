@@ -4,14 +4,14 @@ import { ruleSchema } from './rules/index.ts'
 
 export const settingsSchema = z.object({
   extends: z.string().array().optional(),
-  presets: z.record(ruleSchema.array()),
+  presets: z.record(ruleSchema.array()).default({}),
   rules: ruleSchema.array(),
 })
 
 export type Settings = z.infer<typeof settingsSchema>
 
 export const loadSettings = async (filepath: string) => {
-  const content = await Deno.readTextFile(filepath)
+  const content = filepath.startsWith('https://') ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath)
 
   const extension = filepath.split('.').pop()
 
