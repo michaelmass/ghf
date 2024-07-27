@@ -13,4 +13,4 @@ format:
     format:
       run: biome format --write {staged_files}
     lint:
-      run: biome lint --apply-unsafe {staged_files}
+      run: biome lint --write --unsafe {staged_files}

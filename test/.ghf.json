@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {
+      "type": "file",
+      "path": "LICENSE",
+      "content": "test/data/LICENSE"
+    }
+  ]
+}
