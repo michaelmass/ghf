@@ -33,18 +33,28 @@ Deno.test('rule lines should append lines to a file if already exists', async ()
 })
 
 Deno.test('rule lines should only update the file if the lines are not already there', async () => {
-  const content = 'line1\nline2\nline3\n'
-  const path = 'path/to/file'
+  const content1 = 'line1\nline2\nline3\n'
+  const content2 = '\nline2\nline3\nline1\n'
+  const path1 = 'path/to/file1'
+  const path2 = 'path/to/file2'
 
-  const fs = TestFileSystem({ [path]: content })
+  const fs = TestFileSystem({ [path1]: content1, [path2]: content2 })
 
-  const rule = {
+  const rule1 = {
     type: 'lines',
-    path,
-    content,
+    path: path1,
+    content: content1,
   } as const
 
-  await ruleLinesFunc(rule, fs)
+  const rule2 = {
+    type: 'lines',
+    path: path2,
+    content: content1,
+  } as const
 
-  assertEquals(await fs.read(path), undefined)
+  await ruleLinesFunc(rule1, fs)
+  await ruleLinesFunc(rule2, fs)
+
+  assertEquals(await fs.read(path1), undefined)
+  assertEquals(await fs.read(path2), undefined)
 })
