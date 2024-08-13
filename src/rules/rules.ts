@@ -6,6 +6,7 @@ import type { Plan } from '../plan.ts'
 import { ruleResetFunc, ruleResetSchema } from './reset.ts'
 import { FileSystem } from '../filesystem.ts'
 import { ruleDeleteFunc, ruleDeleteSchema } from './delete.ts'
+import { ruleInitFunc, ruleInitSchema } from './init.ts'
 
 const rulePresetSchema = z.object({
   type: z.literal('preset'),
@@ -30,7 +31,7 @@ const rulePresetFunc = async ({ name }: PresetRule, fs: FileSystem, settings: Se
   }
 }
 
-export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema])
+export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema, ruleInitSchema])
 
 type Rule = z.infer<typeof ruleSchema>
 type RuleType = Rule['type']
@@ -43,6 +44,7 @@ const ruleFuncs = {
   reset: ruleResetFunc,
   delete: ruleDeleteFunc,
   preset: rulePresetFunc,
+  init: ruleInitFunc,
 } satisfies { [key in RuleType]: RuleFunc<key> }
 
 export const planRules = async (settings: Settings): Promise<Plan[]> => {
