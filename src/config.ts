@@ -9,7 +9,7 @@ export const configSchema = z
   .transform(({ WORKDIR, DRY_RUN, CONFIG_FILE }) => ({
     dir: WORKDIR,
     dryRun: DRY_RUN === 'true',
-    configFile: CONFIG_FILE,
+    config: CONFIG_FILE,
   }))
 
 export type Config = z.infer<typeof configSchema>
