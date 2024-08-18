@@ -21,7 +21,7 @@ await new Command()
   .option('--config <config:string>', 'The configuration file to get the hidden files settings', { default: '.ghf.json' })
   .action(async options => {
     const config = getConfig(options)
-    const settings = await loadSettings(config.configFile)
+    const settings = await loadSettings(config.config)
     const plans = await planRules(settings)
     await applyPlans(plans, { dryRun: config.dryRun })
   })
