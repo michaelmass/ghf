@@ -30,6 +30,7 @@ export async function applyPlans(plans: Plan[], opts: ApplyPlanOptions) {
 
 export async function applyPlan(plan: Plan, opts: ApplyPlanOptions) {
   if (opts.dryRun) {
+    console.log(`[${plan.type.toUpperCase()}]${plan.path}`)
     return
   }
 
