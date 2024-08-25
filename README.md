@@ -31,3 +31,7 @@ The power of this utility lies in having a remote `.ghf.json` file that you can 
   "extends": ["https://raw.githubusercontent.com/username/repo/main/.ghf.json"] // This will be fetched and append the rules to the current rules at the beginning of the array of rules
 }
 ```
+
+### Liscense
+
+[MIT](LICENSE)
