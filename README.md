@@ -32,6 +32,12 @@ The power of this utility lies in having a remote `.ghf.json` file that you can 
 }
 ```
 
+### Rules
+
+This is the list of all the possible rules that can be used to describe the operations on a folder.
+
+// TODO
+
 ### Liscense
 
 [MIT](LICENSE)
