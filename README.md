@@ -32,9 +32,19 @@ The power of this utility lies in having a remote `.ghf.json` file that you can 
 }
 ```
 
-### Rules
+## Rules
 
 This is the list of all the possible rules that can be used to describe the operations on a folder.
+
+### Delete
+
+### File
+
+### init
+
+### lines
+
+### reset
 
 // TODO
 
