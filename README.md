@@ -38,6 +38,8 @@ This is the list of all the possible rules that can be used to describe the oper
 
 ### Delete
 
+`Delete` rule deletes a file in the file system. It can be used to ensure that no file is present.
+
 ### File
 
 ### init
