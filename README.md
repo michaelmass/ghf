@@ -42,6 +42,8 @@ This is the list of all the possible rules that can be used to describe the oper
 
 ### File
 
+`File` rule creates a file in the file system with the provided content. This rule will override any existing content in the file.
+
 ### init
 
 ### lines
