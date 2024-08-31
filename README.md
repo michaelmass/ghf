@@ -46,6 +46,8 @@ This is the list of all the possible rules that can be used to describe the oper
 
 ### init
 
+`init` rule creates a file if the file doesn't exist already. This is usefull to initialised files without replacing existing files.
+
 ### lines
 
 ### reset
