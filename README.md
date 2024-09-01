@@ -50,6 +50,8 @@ This is the list of all the possible rules that can be used to describe the oper
 
 ### lines
 
+`lines` rule appends lines into a file if they don't exist already.
+
 ### reset
 
 // TODO
