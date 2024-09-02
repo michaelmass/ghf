@@ -54,7 +54,7 @@ This is the list of all the possible rules that can be used to describe the oper
 
 ### reset
 
-// TODO
+`reset` rule reset the content of a file if it was modified by previous rules. This rule alone isn't useful but it can ensure nothing is affecting a file.
 
 ### Liscense
 
