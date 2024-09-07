@@ -19,10 +19,8 @@ export const loadContent = async (content: Content) => {
 
   if ('url' in content) {
     const response = await fetch(content.url)
-    return await response.text()
+    return response.text()
   }
 
-  const fileContent = await Deno.readTextFile(content.path)
-
-  return fileContent
+  return Deno.readTextFile(content.path)
 }
