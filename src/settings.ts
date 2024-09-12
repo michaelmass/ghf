@@ -11,7 +11,7 @@ export const settingsSchema = z.object({
 export type Settings = z.infer<typeof settingsSchema>
 
 export const loadSettings = async (filepath: string) => {
-  const content = filepath.startsWith('https://') ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath)
+  const content = filepath.startsWith('https://') ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath) // TODO if https replace content with remote file content
 
   const extension = filepath.split('.').pop()
 
