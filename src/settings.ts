@@ -29,5 +29,13 @@ export const loadSettings = async (filepath: string) => {
     }
   }
 
+  if (settings.extends?.length) {
+    for (const extend of settings.extends) {
+      const extendedSettings = await loadSettings(extend)
+      settings.presets = { ...extendedSettings.presets, ...settings.presets }
+      settings.rules.push(...extendedSettings.rules)
+    }
+  }
+
   return settings
 }
