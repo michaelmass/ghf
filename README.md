@@ -56,6 +56,10 @@ This is the list of all the possible rules that can be used to describe the oper
 
 `reset` rule reset the content of a file if it was modified by previous rules. This rule alone isn't useful but it can ensure nothing is affecting a file.
 
+### merge
+
+`merge` rule merges the structured content of a file with the provided structured content. This will do a merge of data structures like JSON, YAML, etc.
+
 ### Liscense
 
 [MIT](LICENSE)
