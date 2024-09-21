@@ -60,33 +60,9 @@ This is the list of all the possible rules that can be used to describe the oper
 
 `merge` rule merges the structured content of a file with the provided structured content. This will do a merge of data structures like JSON, YAML, etc.
 
-### append
-
-`append` rule appends content to a file if it doesn't exist already. This is useful to append content to a file without overriding the existing content.
-
-### prepend
-
-`prepend` rule prepends content to a file if it doesn't exist already. This is useful to prepend content to a file without overriding the existing content.
-
-### replace
-
-`replace` rule replaces content in a file if it exists. This is useful to replace content in a file without overriding the existing content.
-
-### copy
-
-`copy` rule copies a file from a source to a destination. This is useful to copy files from one location to another.
-
-### move
-
-`move` rule moves a file from a source to a destination. This is useful to move files from one location to another.
-
 ### exec
 
 `exec` rule executes a command in the file system. This is useful to execute commands in the file system.
-
-### fetch
-
-`fetch` rule fetches a file from a remote location and saves it in the file system. This is useful to fetch files from the internet.
 
 ### Liscense
 
