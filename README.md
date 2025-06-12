@@ -32,6 +32,12 @@ The power of this utility lies in having a remote `.ghf.json` file that you can 
 }
 ```
 
+Even better, you can use a remote file directly.
+
+```bash
+ghf apply --config=https://raw.githubusercontent.com/username/repo/main/ghf.default.json
+```
+
 ## Rules
 
 This is the list of all the possible rules that can be used to describe the operations on a folder.

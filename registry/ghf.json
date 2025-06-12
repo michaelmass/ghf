@@ -8,7 +8,9 @@
         "content": {
           "path": "LICENSE"
         }
-      },
+      }
+    ],
+    "gitignore": [
       {
         "type": "lines",
         "path": ".gitignore",
