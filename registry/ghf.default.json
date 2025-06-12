@@ -1,0 +1,14 @@
+{
+  "$schema": "./schema.json",
+  "extends": ["./ghf.json"],
+  "rules": [
+    {
+      "type": "preset",
+      "name": "liscense-mit"
+    },
+    {
+      "type": "preset",
+      "name": "gitignore"
+    }
+  ]
+}

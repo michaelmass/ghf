@@ -1,0 +1,23 @@
+{
+  "$schema": "./schema.json",
+  "presets": {
+    "liscense-mit": [
+      {
+        "type": "file",
+        "path": "LICENSE",
+        "content": {
+          "path": "LICENSE"
+        }
+      }
+    ],
+    "gitignore": [
+      {
+        "type": "lines",
+        "path": ".gitignore",
+        "content": {
+          "path": ".gitignore"
+        }
+      }
+    ]
+  }
+}
