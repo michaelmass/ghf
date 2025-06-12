@@ -1,12 +1,13 @@
 import { exists, z } from '../deps.ts'
-import type { Settings } from '../settings.ts'
-import { ruleFileFunc, ruleFileSchema } from './file.ts'
-import { ruleLinesFunc, ruleLinesSchema } from './lines.ts'
-import type { Plan } from '../plan.ts'
-import { ruleResetFunc, ruleResetSchema } from './reset.ts'
 import { FileSystem } from '../filesystem.ts'
+import type { Plan } from '../plan.ts'
+import type { Settings } from '../settings.ts'
 import { ruleDeleteFunc, ruleDeleteSchema } from './delete.ts'
+import { ruleFileFunc, ruleFileSchema } from './file.ts'
 import { ruleInitFunc, ruleInitSchema } from './init.ts'
+import { ruleLinesFunc, ruleLinesSchema } from './lines.ts'
+import { ruleMergeFunc, ruleMergeSchema } from './merge.ts'
+import { ruleResetFunc, ruleResetSchema } from './reset.ts'
 
 const rulePresetSchema = z.object({
   type: z.literal('preset'),
@@ -31,7 +32,7 @@ const rulePresetFunc = async ({ name }: PresetRule, fs: FileSystem, settings: Se
   }
 }
 
-export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema, ruleInitSchema])
+export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema, ruleInitSchema, ruleMergeSchema])
 
 type Rule = z.infer<typeof ruleSchema>
 type RuleType = Rule['type']
@@ -45,6 +46,7 @@ const ruleFuncs = {
   delete: ruleDeleteFunc,
   preset: rulePresetFunc,
   init: ruleInitFunc,
+  merge: ruleMergeFunc,
 } satisfies { [key in RuleType]: RuleFunc<key> }
 
 export const planRules = async (settings: Settings): Promise<Plan[]> => {
