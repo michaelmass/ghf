@@ -27,5 +27,5 @@ default_settings()
 resource(
   name='Test',
   manual=True,
-  cmd='deno test'
+  cmd='deno test -A'
 )
