@@ -1,1 +1,1 @@
-export { planRules, ruleSchema } from './rules.ts'
+export { planRules, ruleSchema, type Rule } from './rules.ts'

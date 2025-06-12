@@ -1,6 +1,6 @@
 import { z } from './deps.ts'
 import { parse } from './parse.ts'
-import { ruleSchema } from './rules/index.ts'
+import { type Rule, ruleSchema } from './rules/index.ts'
 import type { Content } from './schemas.ts'
 import { normalizeUrl } from './url.ts'
 
@@ -35,23 +35,7 @@ export const loadSettings = async (filepath: string) => {
 
   if (isRemote) {
     const remote = filepath.substring(0, filepath.lastIndexOf('/'))
-
-    for (const rule of settings.rules) {
-      switch (rule.type) {
-        case 'file':
-          rule.content = replacePathWithRemote(rule.content, remote)
-          break
-        case 'init':
-          rule.content = replacePathWithRemote(rule.content, remote)
-          break
-        case 'lines':
-          rule.content = replacePathWithRemote(rule.content, remote)
-          break
-        case 'merge':
-          rule.content = replacePathWithRemote(rule.content, remote)
-          break
-      }
-    }
+    setupRemoteRules(settings, remote)
   }
 
   if (settings.extends?.length) {
@@ -63,6 +47,35 @@ export const loadSettings = async (filepath: string) => {
   }
 
   return settings
+}
+
+const setupRemoteRules = (settings: Settings, remote: string) => {
+  for (const rule of settings.rules) {
+    updateRuleWithRemote(rule, remote)
+  }
+
+  for (const preset of Object.values(settings.presets)) {
+    for (const rule of preset) {
+      updateRuleWithRemote(rule, remote)
+    }
+  }
+}
+
+const updateRuleWithRemote = (rule: Rule, remote: string) => {
+  switch (rule.type) {
+    case 'file':
+      rule.content = replacePathWithRemote(rule.content, remote)
+      break
+    case 'init':
+      rule.content = replacePathWithRemote(rule.content, remote)
+      break
+    case 'lines':
+      rule.content = replacePathWithRemote(rule.content, remote)
+      break
+    case 'merge':
+      rule.content = replacePathWithRemote(rule.content, remote)
+      break
+  }
 }
 
 const replacePathWithRemote = (content: Content, remote: string): Content => {

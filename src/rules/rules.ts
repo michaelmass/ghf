@@ -34,7 +34,7 @@ const rulePresetFunc = async ({ name }: PresetRule, fs: FileSystem, settings: Se
 
 export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema, ruleInitSchema, ruleMergeSchema])
 
-type Rule = z.infer<typeof ruleSchema>
+export type Rule = z.infer<typeof ruleSchema>
 type RuleType = Rule['type']
 type ExtractRule<T extends RuleType> = Extract<Rule, { type: T }>
 type RuleFunc<T extends RuleType> = (rule: ExtractRule<T>, fileSystem: FileSystem, settings: Settings) => Promise<void> | void
