@@ -14,3 +14,6 @@ format:
       run: biome format --write {staged_files}
     lint:
       run: biome lint --write --unsafe {staged_files}
+    typecheck:
+      glob: '*.{ts,tsx}'
+      run: deno check ./src/cli.ts
