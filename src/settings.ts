@@ -4,7 +4,7 @@ import { ruleSchema } from './rules/index.ts'
 
 export const settingsSchema = z.object({
   extends: z.string().array().optional(),
-  presets: z.record(ruleSchema.array()).default({}),
+  presets: z.record(z.string(), ruleSchema.array()).default({}),
   rules: ruleSchema.array(),
 })
 
@@ -17,7 +17,7 @@ export const loadSettings = async (filepath: string) => {
 
   const extension = filepath.split('.').pop()
 
-  const data = parse(content, extension ?? '')
+  const data = await parse(content, extension ?? '')
 
   const settings = settingsSchema.parse(data)
 

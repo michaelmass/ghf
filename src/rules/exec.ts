@@ -6,7 +6,7 @@ export const ruleExecSchema = z.object({
   cmd: z.string(),
   args: z.array(z.string()),
   cwd: z.string(),
-  env: z.record(z.string()),
+  env: z.record(z.string(), z.string()),
 })
 
 type RuleExec = z.infer<typeof ruleExecSchema>
