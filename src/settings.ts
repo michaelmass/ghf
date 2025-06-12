@@ -5,9 +5,10 @@ import type { Content } from './schemas.ts'
 import { normalizeUrl } from './url.ts'
 
 export const settingsSchema = z.object({
+  $schema: z.string().optional(),
   extends: z.string().array().optional(),
-  presets: z.record(z.string(), ruleSchema.array()).default({}),
-  rules: ruleSchema.array(),
+  presets: z.record(z.string(), ruleSchema.array()).optional().default({}),
+  rules: ruleSchema.array().optional(),
 })
 
 export type Settings = z.infer<typeof settingsSchema>
@@ -42,7 +43,7 @@ export const loadSettings = async (filepath: string) => {
     for (const extend of settings.extends) {
       const extendedSettings = await loadSettings(extend)
       settings.presets = { ...extendedSettings.presets, ...settings.presets }
-      settings.rules.push(...extendedSettings.rules)
+      settings.rules?.push(...(extendedSettings.rules ?? []))
     }
   }
 
@@ -50,7 +51,7 @@ export const loadSettings = async (filepath: string) => {
 }
 
 const setupRemoteRules = (settings: Settings, remote: string) => {
-  for (const rule of settings.rules) {
+  for (const rule of settings.rules ?? []) {
     updateRuleWithRemote(rule, remote)
   }
 

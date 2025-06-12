@@ -53,7 +53,7 @@ export const planRules = async (settings: Settings): Promise<Plan[]> => {
   const plans: Plan[] = []
   const fileSystem = FileSystem()
 
-  for (const rule of settings.rules) {
+  for (const rule of settings.rules ?? []) {
     await applyRule(rule, fileSystem, settings)
   }
 

@@ -31,7 +31,7 @@ await new Command()
   .command('schema', 'returns the json schema for the ghf config file')
   .option('-o, --outfile <outfile:string>', 'Outfile to write to (ie: .ghf.schema.json)', { default: '' })
   .action(async ({ outfile }) => {
-    const schema = z.toJSONSchema(settingsSchema)
+    const schema = z.toJSONSchema(settingsSchema, { io: 'input' })
     const json = JSON.stringify(schema, null, 2)
 
     if (outfile) {
