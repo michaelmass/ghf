@@ -4,8 +4,8 @@ import { contentSchema, loadContent } from '../schemas.ts'
 
 export const ruleLinesSchema = z.object({
   type: z.literal('lines'),
-  content: contentSchema,
   path: z.string(),
+  content: contentSchema,
 })
 
 type RuleLines = z.infer<typeof ruleLinesSchema>

@@ -21,8 +21,8 @@ type ContentType = keyof typeof parseFuncs
 export const ruleMergeSchema = z.object({
   type: z.literal('merge'),
   path: z.string(),
-  content: contentSchema,
   mergeArrays: z.boolean().optional().default(true),
+  content: contentSchema,
 })
 
 type RuleMerge = z.infer<typeof ruleMergeSchema>

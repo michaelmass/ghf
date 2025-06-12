@@ -10,7 +10,7 @@ export const contentSchema = z.union([
   z.string(),
 ])
 
-type Content = z.infer<typeof contentSchema>
+export type Content = z.infer<typeof contentSchema>
 
 export const loadContent = async (content: Content) => {
   if (typeof content === 'string') {

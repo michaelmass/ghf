@@ -58,7 +58,7 @@ This is the list of all the possible rules that can be used to describe the oper
 
 ### merge
 
-`merge` rule merges the structured content of a file with the provided structured content. This will do a merge of data structures like JSON, YAML, etc.
+`merge` rule merges the structured content of a file with the provided structured content. This will do a merge of data structures like JSON & YAML.
 
 ### exec
 
