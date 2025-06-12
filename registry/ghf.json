@@ -4,9 +4,16 @@
     "liscense-mit": [
       {
         "type": "file",
-        "path": "./LICENSE",
+        "path": "LICENSE",
         "content": {
-          "path": "./LICENSE"
+          "path": "LICENSE"
+        }
+      },
+      {
+        "type": "lines",
+        "path": ".gitignore",
+        "content": {
+          "path": ".gitignore"
         }
       }
     ]
