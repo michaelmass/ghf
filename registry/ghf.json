@@ -1,3 +1,14 @@
 {
-  "$schema": "./schema.json"
+  "$schema": "./schema.json",
+  "presets": {
+    "liscense-mit": [
+      {
+        "type": "file",
+        "path": "./LICENSE",
+        "content": {
+          "path": "./LICENSE"
+        }
+      }
+    ]
+  }
 }
