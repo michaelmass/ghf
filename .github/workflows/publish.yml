@@ -1,0 +1,21 @@
+name: Publish
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["master"]
+    tags: ["v*"]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: michaelmass/actions/dagger@master
+        with:
+          source: ci/publish.ts
+          infisical-token: ${{ secrets.INFISICAL_TOKEN }}
+          infisical-workspace-id: ${{ secrets.INFISICAL_WORKSPACE_ID }}
+          infisical-environment: production
