@@ -4,7 +4,7 @@
  * This module contains the command line interface for the ghf cli.
  *
  */
-import { compile } from 'npm:json-schema-to-typescript'
+import { compile } from 'npm:json-schema-to-typescript@15.0.4'
 import data from '../deno.json' with { type: 'json' }
 import { getConfig } from './config.ts'
 import { Command, z } from './deps.ts'
