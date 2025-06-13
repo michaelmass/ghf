@@ -61,7 +61,7 @@ const setupRemoteRules = (settings: Settings, remote: string) => {
     }
   }
 
-  settings.extends = settings.extends?.map(extend => (extend.startsWith('https://') ? extend : getContentValue(replacePathWithRemote(extend, remote)))) ?? []
+  settings.extends = settings.extends?.map(extend => (extend.startsWith('https://') ? extend : normalizeUrl(`${remote}/${extend}`))) ?? []
 }
 
 const updateRuleWithRemote = (rule: Rule, remote: string) => {
@@ -79,22 +79,6 @@ const updateRuleWithRemote = (rule: Rule, remote: string) => {
       rule.content = replacePathWithRemote(rule.content, remote)
       break
   }
-}
-
-const getContentValue = (content: Content): string => {
-  if (typeof content === 'string') {
-    return content
-  }
-
-  if ('url' in content) {
-    return content.url
-  }
-
-  if ('path' in content) {
-    return content.path
-  }
-
-  throw new Error('Unsupported content type')
 }
 
 const replacePathWithRemote = (content: Content, remote: string): Content => {
