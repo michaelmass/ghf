@@ -2,3 +2,5 @@
 .vscode
 extension_tiltfile
 .env
+node_modules
+dist
