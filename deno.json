@@ -1,4 +1,11 @@
 {
+  "name": "@michaelmass/ghf",
   "version": "0.1.0",
-  "lock": false
+  "lock": false,
+  "exports": {
+    "./cli": "./src/cli.ts"
+  },
+  "publish": {
+    "exclude": ["lefthook.yml", "biome.json", "LICENSE"]
+  }
 }
