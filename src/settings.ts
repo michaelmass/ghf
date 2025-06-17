@@ -7,7 +7,7 @@ import { normalizeUrl } from './url.ts'
 export const settingsSchema = z.object({
   $schema: z.string().optional(),
   extends: z.string().array().optional(),
-  presets: z.record(z.string(), ruleSchema.array()).optional().default({}),
+  presets: z.record(z.string(), ruleSchema.array()).optional(),
   rules: ruleSchema.array().optional(),
 })
 
@@ -24,7 +24,7 @@ export const loadSettings = async (filepath: string) => {
 
   const settings = settingsSchema.parse(data)
 
-  const presetEntries = Object.entries(settings.presets)
+  const presetEntries = Object.entries(settings.presets ?? {})
 
   for (const [_, rules] of presetEntries) {
     for (const rule of rules) {
@@ -55,7 +55,7 @@ const setupRemoteRules = (settings: Settings, remote: string) => {
     updateRuleWithRemote(rule, remote)
   }
 
-  for (const preset of Object.values(settings.presets)) {
+  for (const preset of Object.values(settings.presets ?? {})) {
     for (const rule of preset) {
       updateRuleWithRemote(rule, remote)
     }

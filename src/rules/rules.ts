@@ -18,7 +18,7 @@ const rulePresetSchema = z.object({
 type PresetRule = z.infer<typeof rulePresetSchema>
 
 const rulePresetFunc = async ({ name }: PresetRule, fs: FileSystem, settings: Settings) => {
-  const preset = settings.presets[name]
+  const preset = settings.presets?.[name]
 
   if (!preset) {
     throw new Error(`Preset not found: ${name}`)
