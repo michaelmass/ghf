@@ -23,6 +23,7 @@
       {
         "type": "part",
         "path": "Tiltfile",
+        "strategy": "start",
         "content": {
           "url": "https://raw.githubusercontent.com/michaelmass/tiltfile-extensions/master/default.Tiltfile"
         }
