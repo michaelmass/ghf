@@ -12,6 +12,12 @@ import { applyPlans } from './plan.ts'
 import { planRules } from './rules/index.ts'
 import { loadSettings, settingsSchema } from './settings.ts'
 
+const defaultConfig = `import type { Config } from './.ghf.type'
+
+export default {
+  extends: ['https://michaelmass.github.io/ghf/ghf.default.json'],
+} satisfies Config`
+
 type JSONSchema4 = Parameters<typeof compile>[0]
 
 await new Command()
@@ -21,7 +27,7 @@ await new Command()
   .command('apply', 'apply the git hidden files')
   .option('-d, --dir <dir:string>', 'Directory to apply hidden files', { default: '.' })
   .option('--dry-run', 'Run the apply command without applying changes', { default: false })
-  .option('--config <config:string>', 'The configuration file to get the hidden files settings', { default: '.ghf.json' })
+  .option('--config <config:string>', 'The configuration file to get the hidden files settings', { default: '' })
   .action(async options => {
     const config = getConfig(options)
     const settings = await loadSettings(config.config)
@@ -53,5 +59,28 @@ await new Command()
       // biome-ignore lint/suspicious/noConsoleLog: this output the schema to the console
       console.log(type)
     }
+  })
+  .command('settings', 'returns the settings for the ghf config file')
+  .option('-o, --outfile <outfile:string>', 'Outfile to write to (ie: .ghf.settings.json)', { default: '' })
+  .option('--config <config:string>', 'The configuration file to get the hidden files settings', { default: '' })
+  .action(async ({ outfile, config }) => {
+    const settings = await loadSettings(config)
+    const json = JSON.stringify(settings, null, 2)
+
+    if (outfile) {
+      await Deno.writeTextFile(outfile, json)
+    } else {
+      // biome-ignore lint/suspicious/noConsoleLog: this output the schema to the console
+      console.log(json)
+    }
+  })
+  .command('init', 'initializes the ghf config file')
+  .option('-o, --outfile <outfile:string>', 'Outfile to write to (ie: .ghf.ts)', { default: '.ghf.ts' })
+  .action(async ({ outfile }) => {
+    if (Deno.statSync(outfile).isFile) {
+      throw new Error(`File ${outfile} already exists`)
+    }
+
+    await Deno.writeTextFile(outfile, defaultConfig)
   })
   .parse(Deno.args)
