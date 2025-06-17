@@ -38,6 +38,18 @@ export const loadSettings = async (path: string) => {
 
   const settings = settingsSchema.parse(data)
 
+  if (!settings.rules) {
+    settings.rules = []
+  }
+
+  if (!settings.presets) {
+    settings.presets = {}
+  }
+
+  if (!settings.extends) {
+    settings.extends = []
+  }
+
   const presetEntries = Object.entries(settings.presets ?? {})
 
   for (const [_, rules] of presetEntries) {
@@ -56,7 +68,7 @@ export const loadSettings = async (path: string) => {
   if (settings.extends?.length) {
     for (const extend of settings.extends) {
       const extendedSettings = await loadSettings(extend)
-      settings.presets = { ...extendedSettings.presets, ...settings.presets }
+      settings.presets = { ...(extendedSettings.presets ?? {}), ...(settings.presets ?? {}) }
       settings.rules?.push(...(extendedSettings.rules ?? []))
     }
   }
