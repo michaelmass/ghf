@@ -4,11 +4,16 @@
   "rules": [
     {
       "type": "preset",
-      "name": "liscense-mit"
+      "name": "gitignore"
     },
     {
       "type": "preset",
-      "name": "gitignore"
+      "name": "tiltfile-init"
+    },
+    {
+      "type": "init",
+      "path": "lefthook.yml",
+      "content": ""
     }
   ]
 }
