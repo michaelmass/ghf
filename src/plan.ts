@@ -7,7 +7,7 @@ type CreatePlan = {
 type UpdatePlan = {
   type: 'update'
   path: string
-  old: string
+  old?: string
   new: string
 }
 
