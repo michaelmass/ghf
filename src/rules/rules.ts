@@ -71,7 +71,7 @@ export const planRules = async (settings: Settings): Promise<Plan[]> => {
       plans.push({ type: 'create', path, content })
     }
 
-    const old = await Deno.readTextFile(path)
+    const old = await Deno.readTextFile(path).catch(() => undefined)
 
     if (old !== content) {
       plans.push({ type: 'update', path, old, new: content })
