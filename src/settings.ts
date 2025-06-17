@@ -26,10 +26,11 @@ const findSettingsFile = async () => {
   throw new Error('No settings file found')
 }
 
-export const loadSettings = async (filepath: string) => {
+export const loadSettings = async (path: string) => {
+  const filepath = path === '' ? await findSettingsFile() : path
   const isRemote = filepath.startsWith('https://')
 
-  const content = isRemote ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath === '' ? await findSettingsFile() : filepath)
+  const content = isRemote ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath)
 
   const extension = filepath.split('.').pop()
 
