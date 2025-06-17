@@ -13,10 +13,22 @@ export const settingsSchema = z.object({
 
 export type Settings = z.infer<typeof settingsSchema>
 
+const findSettingsFile = () => {
+  const files = ['.ghf.ts', 'ghf.ts', '.ghf.json', 'ghf.json', '.ghf.js', 'ghf.js', '.ghf.yaml', 'ghf.yaml', '.ghf.yml', 'ghf.yml']
+
+  for (const file of files) {
+    if (Deno.statSync(file).isFile) {
+      return file
+    }
+  }
+
+  throw new Error('No settings file found')
+}
+
 export const loadSettings = async (filepath: string) => {
   const isRemote = filepath.startsWith('https://')
 
-  const content = isRemote ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath)
+  const content = isRemote ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath === '' ? findSettingsFile() : filepath)
 
   const extension = filepath.split('.').pop()
 
@@ -76,6 +88,9 @@ const updateRuleWithRemote = (rule: Rule, remote: string) => {
       rule.content = replacePathWithRemote(rule.content, remote)
       break
     case 'merge':
+      rule.content = replacePathWithRemote(rule.content, remote)
+      break
+    case 'part':
       rule.content = replacePathWithRemote(rule.content, remote)
       break
   }
