@@ -6,7 +6,7 @@
         "type": "file",
         "path": "LICENSE",
         "content": {
-          "path": "LICENSE"
+          "path": "LICENSE-MIT"
         }
       }
     ],
@@ -16,6 +16,15 @@
         "path": ".gitignore",
         "content": {
           "path": ".gitignore"
+        }
+      }
+    ],
+    "tiltfile-init": [
+      {
+        "type": "part",
+        "path": "Tiltfile",
+        "content": {
+          "url": "https://raw.githubusercontent.com/michaelmass/tiltfile-extensions/master/default.Tiltfile"
         }
       }
     ]

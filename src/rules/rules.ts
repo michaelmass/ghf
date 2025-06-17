@@ -7,6 +7,7 @@ import { ruleFileFunc, ruleFileSchema } from './file.ts'
 import { ruleInitFunc, ruleInitSchema } from './init.ts'
 import { ruleLinesFunc, ruleLinesSchema } from './lines.ts'
 import { ruleMergeFunc, ruleMergeSchema } from './merge.ts'
+import { rulePartFunc, rulePartSchema } from './part.ts'
 import { ruleResetFunc, ruleResetSchema } from './reset.ts'
 
 const rulePresetSchema = z.object({
@@ -32,7 +33,7 @@ const rulePresetFunc = async ({ name }: PresetRule, fs: FileSystem, settings: Se
   }
 }
 
-export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema, ruleInitSchema, ruleMergeSchema])
+export const ruleSchema = z.discriminatedUnion('type', [ruleFileSchema, rulePresetSchema, ruleLinesSchema, ruleResetSchema, ruleDeleteSchema, ruleInitSchema, ruleMergeSchema, rulePartSchema])
 
 export type Rule = z.infer<typeof ruleSchema>
 type RuleType = Rule['type']
@@ -47,6 +48,7 @@ const ruleFuncs = {
   preset: rulePresetFunc,
   init: ruleInitFunc,
   merge: ruleMergeFunc,
+  part: rulePartFunc,
 } satisfies { [key in RuleType]: RuleFunc<key> }
 
 export const planRules = async (settings: Settings): Promise<Plan[]> => {
