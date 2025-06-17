@@ -8,6 +8,7 @@ import { compile } from 'npm:json-schema-to-typescript@15.0.4'
 import data from '../deno.json' with { type: 'json' }
 import { getConfig } from './config.ts'
 import { Command, z } from './deps.ts'
+import { fileExists } from './fs.ts'
 import { applyPlans } from './plan.ts'
 import { planRules } from './rules/index.ts'
 import { loadSettings, settingsSchema } from './settings.ts'
@@ -77,7 +78,7 @@ await new Command()
   .command('init', 'initializes the ghf config file')
   .option('-o, --outfile <outfile:string>', 'Outfile to write to (ie: .ghf.ts)', { default: '.ghf.ts' })
   .action(async ({ outfile }) => {
-    if (Deno.statSync(outfile).isFile) {
+    if (await fileExists(outfile)) {
       throw new Error(`File ${outfile} already exists`)
     }
 
