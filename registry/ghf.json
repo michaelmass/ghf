@@ -34,7 +34,7 @@
         "type": "file",
         "path": "biome.json",
         "content": {
-          "path": "biome.json"
+          "path": "biome.txt"
         }
       }
     ]
