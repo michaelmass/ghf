@@ -55,7 +55,7 @@ await new Command()
     const type = await compile(schema as unknown as JSONSchema4, 'Config')
 
     if (outfile) {
-      await Deno.writeTextFile(outfile, type)
+      await Deno.writeTextFile(outfile, `${type}\n`)
     } else {
       // biome-ignore lint/suspicious/noConsole: this output the schema to the console
       console.log(type)

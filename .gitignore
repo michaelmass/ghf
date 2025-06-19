@@ -4,3 +4,4 @@ extension_tiltfile
 .env
 node_modules
 dist
+.ghf.type.ts
