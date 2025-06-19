@@ -44,7 +44,7 @@ await new Command()
     if (outfile) {
       await Deno.writeTextFile(outfile, json)
     } else {
-      // biome-ignore lint/suspicious/noConsoleLog: this output the schema to the console
+      // biome-ignore lint/suspicious/noConsole: this output the schema to the console
       console.log(json)
     }
   })
@@ -57,7 +57,7 @@ await new Command()
     if (outfile) {
       await Deno.writeTextFile(outfile, type)
     } else {
-      // biome-ignore lint/suspicious/noConsoleLog: this output the schema to the console
+      // biome-ignore lint/suspicious/noConsole: this output the schema to the console
       console.log(type)
     }
   })
@@ -71,7 +71,7 @@ await new Command()
     if (outfile) {
       await Deno.writeTextFile(outfile, json)
     } else {
-      // biome-ignore lint/suspicious/noConsoleLog: this output the schema to the console
+      // biome-ignore lint/suspicious/noConsole: this output the schema to the console
       console.log(json)
     }
   })
