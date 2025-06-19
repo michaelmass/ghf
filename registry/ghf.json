@@ -28,6 +28,15 @@
           "url": "https://raw.githubusercontent.com/michaelmass/tiltfile-extensions/master/default.Tiltfile"
         }
       }
+    ],
+    "biome": [
+      {
+        "type": "file",
+        "path": "biome.json",
+        "content": {
+          "path": "biome.txt"
+        }
+      }
     ]
   }
 }
