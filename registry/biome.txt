@@ -16,18 +16,26 @@
         "noArrayIndexKey": "error",
         "noConsole": "error"
       },
+      "nursery": {
+        "recommended": true,
+        "noAwaitInLoop": "error",
+        "noFloatingPromises": "error"
+      },
       "correctness": { "noChildrenProp": "error", "noUnusedImports": "error" },
       "a11y": {
+        "recommended": true,
         "useAltText": "error",
         "useKeyWithClickEvents": "error",
         "useValidAnchor": "error",
         "noSvgWithoutTitle": "error"
       },
       "complexity": {
+        "recommended": true,
         "useSimplifiedLogicExpression": "off",
         "noExtraBooleanCast": "error"
       },
       "style": {
+        "recommended": true,
         "noParameterAssign": "error",
         "useAsConstAssertion": "error",
         "useDefaultParameterLast": "error",
