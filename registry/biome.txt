@@ -18,7 +18,6 @@
       },
       "nursery": {
         "recommended": true,
-        "noAwaitInLoop": "error",
         "noFloatingPromises": "error"
       },
       "correctness": { "noChildrenProp": "error", "noUnusedImports": "error" },
