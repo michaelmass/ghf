@@ -11,9 +11,8 @@
       "name": "tiltfile-init"
     },
     {
-      "type": "init",
-      "path": "lefthook.yml",
-      "content": ""
+      "type": "preset",
+      "name": "biome"
     }
   ]
 }
