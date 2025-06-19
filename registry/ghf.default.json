@@ -13,6 +13,10 @@
     {
       "type": "preset",
       "name": "biome"
+    },
+    {
+      "type": "preset",
+      "name": "github-actions"
     }
   ]
 }
