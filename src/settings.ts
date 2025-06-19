@@ -69,7 +69,7 @@ export const loadSettings = async (path: string) => {
     for (const extend of settings.extends) {
       const extendedSettings = await loadSettings(extend)
       settings.presets = { ...(extendedSettings.presets ?? {}), ...(settings.presets ?? {}) }
-      settings.rules?.push(...(extendedSettings.rules ?? []))
+      settings.rules?.unshift(...(extendedSettings.rules ?? []))
     }
   }
 
