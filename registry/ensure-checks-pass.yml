@@ -16,4 +16,4 @@ jobs:
         with:
           timeout: 300 # 5 minutes
           token: ${{ secrets.GITHUB_TOKEN }}
-          self: ensure-checks-pass
+          self: check-all
