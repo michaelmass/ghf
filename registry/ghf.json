@@ -37,6 +37,15 @@
           "path": "biome.txt"
         }
       }
+    ],
+    "github-actions": [
+      {
+        "type": "file",
+        "path": ".github/workflows/ensure-checks-pass.yml",
+        "content": {
+          "path": "ensure-checks-pass.yml"
+        }
+      }
     ]
   }
 }
