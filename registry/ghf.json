@@ -46,6 +46,25 @@
           "path": "ensure-checks-pass.yml"
         }
       }
+    ],
+    "ci-deno": [
+      {
+        "type": "merge",
+        "path": ".vscode/settings.json",
+        "mergeArrays": true,
+        "content": {
+          "path": "vscode-settings.json"
+        }
+      }
+    ],
+    "lefthook": [
+      {
+        "type": "file",
+        "path": "lefthook.yml",
+        "content": {
+          "path": "lefthook.yml"
+        }
+      }
     ]
   }
 }
