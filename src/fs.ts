@@ -1,3 +1,5 @@
+import { dirname } from 'https://deno.land/std@0.208.0/path/mod.ts'
+
 export async function fileExists(path: string): Promise<boolean> {
   try {
     const stat = await Deno.stat(path)
@@ -7,5 +9,17 @@ export async function fileExists(path: string): Promise<boolean> {
       return false
     }
     throw error
+  }
+}
+
+export async function writeTextFile(filepath: string, content: string) {
+  const dir = dirname(filepath)
+  await Deno.mkdir(dir, { recursive: true })
+  await Deno.writeTextFile(filepath, content)
+}
+
+export async function removeIfExists(filepath: string) {
+  if (await fileExists(filepath)) {
+    await Deno.remove(filepath)
   }
 }

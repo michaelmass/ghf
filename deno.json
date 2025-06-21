@@ -1,6 +1,6 @@
 {
   "name": "@michaelmass/ghf",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "lock": false,
   "exports": {
     "./cli": "./src/cli.ts"
