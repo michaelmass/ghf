@@ -8,7 +8,7 @@ import { compile } from 'npm:json-schema-to-typescript@15.0.4'
 import data from '../deno.json' with { type: 'json' }
 import { getConfig } from './config.ts'
 import { Command, z } from './deps.ts'
-import { fileExists } from './fs.ts'
+import { fileExists, writeTextFile } from './fs.ts'
 import { applyPlans } from './plan.ts'
 import { planRules } from './rules/index.ts'
 import { loadSettings, settingsSchema } from './settings.ts'
@@ -42,7 +42,7 @@ await new Command()
     const json = JSON.stringify(schema, null, 2)
 
     if (outfile) {
-      await Deno.writeTextFile(outfile, json)
+      await writeTextFile(outfile, json)
     } else {
       // biome-ignore lint/suspicious/noConsole: this output the schema to the console
       console.log(json)
@@ -55,7 +55,7 @@ await new Command()
     const type = await compile(schema as unknown as JSONSchema4, 'Config')
 
     if (outfile) {
-      await Deno.writeTextFile(outfile, `${type}\n`)
+      await writeTextFile(outfile, `${type}\n`)
     } else {
       // biome-ignore lint/suspicious/noConsole: this output the schema to the console
       console.log(type)
@@ -69,7 +69,7 @@ await new Command()
     const json = JSON.stringify(settings, null, 2)
 
     if (outfile) {
-      await Deno.writeTextFile(outfile, json)
+      await writeTextFile(outfile, json)
     } else {
       // biome-ignore lint/suspicious/noConsole: this output the schema to the console
       console.log(json)
@@ -82,6 +82,6 @@ await new Command()
       throw new Error(`File ${outfile} already exists`)
     }
 
-    await Deno.writeTextFile(outfile, defaultConfig)
+    await writeTextFile(outfile, defaultConfig)
   })
   .parse(Deno.args)

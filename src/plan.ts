@@ -1,3 +1,5 @@
+import { removeIfExists, writeTextFile } from './fs.ts'
+
 type CreatePlan = {
   type: 'create'
   path: string
@@ -35,13 +37,13 @@ export async function applyPlan(plan: Plan, opts: ApplyPlanOptions) {
 
   switch (plan.type) {
     case 'create':
-      await Deno.writeTextFile(plan.path, plan.content)
+      await writeTextFile(plan.path, plan.content)
       break
     case 'update':
-      await Deno.writeTextFile(plan.path, plan.new)
+      await writeTextFile(plan.path, plan.new)
       break
     case 'remove':
-      await Deno.remove(plan.path)
+      await removeIfExists(plan.path)
       break
   }
 }
