@@ -1,4 +1,4 @@
-import { dirname } from 'https://deno.land/std@0.208.0/path/mod.ts'
+import { dirname } from 'jsr:@std/path'
 
 export async function fileExists(path: string): Promise<boolean> {
   try {

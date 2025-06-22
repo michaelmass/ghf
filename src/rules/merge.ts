@@ -1,6 +1,5 @@
 import { merge } from 'npm:ts-deepmerge@7.0.3'
-import { z } from '../deps.ts'
-import { parseYaml, stringifyYaml } from '../deps.ts'
+import { parseYaml, stringifyYaml, z } from '../deps.ts'
 import type { FileSystem } from '../filesystem.ts'
 import { contentSchema, loadContent } from '../schemas.ts'
 
