@@ -1,7 +1,6 @@
 import { z } from '../deps.ts'
 import type { FileSystem } from '../filesystem.ts'
-import { loadContent } from '../schemas.ts'
-import { contentSchema } from '../schemas.ts'
+import { contentSchema, loadContent } from '../schemas.ts'
 
 export const ruleInitSchema = z.object({
   type: z.literal('init'),
