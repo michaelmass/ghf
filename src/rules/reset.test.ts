@@ -1,7 +1,7 @@
 import { assertEquals } from 'jsr:@std/assert'
+import { TestFileSystem } from '../util.test.ts'
 import { ruleFileFunc } from './file.ts'
 import { ruleResetFunc } from './reset.ts'
-import { TestFileSystem } from '../util.test.ts'
 
 Deno.test('rule reset should reset the file before applying any change', async () => {
   const fs = TestFileSystem()

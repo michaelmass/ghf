@@ -1,6 +1,6 @@
 import { assertEquals } from 'jsr:@std/assert'
-import { ruleDeleteFunc } from './delete.ts'
 import { TestFileSystem } from '../util.test.ts'
+import { ruleDeleteFunc } from './delete.ts'
 
 Deno.test('rule delete should remove the file from the filesystem if it exists', async () => {
   const rule = {

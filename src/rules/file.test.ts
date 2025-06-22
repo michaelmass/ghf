@@ -1,6 +1,6 @@
 import { assertEquals } from 'jsr:@std/assert'
-import { ruleFileFunc } from './file.ts'
 import { TestFileSystem } from '../util.test.ts'
+import { ruleFileFunc } from './file.ts'
 
 Deno.test('rule file should create a file', async () => {
   const fs = TestFileSystem()
