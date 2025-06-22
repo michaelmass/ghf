@@ -1,6 +1,6 @@
 import { assertEquals } from 'jsr:@std/assert'
-import { ruleLinesFunc } from './lines.ts'
 import { TestFileSystem } from '../util.test.ts'
+import { ruleLinesFunc } from './lines.ts'
 
 Deno.test('rule lines should create a file with lines if not exists', async () => {
   const fs = TestFileSystem()

@@ -1,6 +1,6 @@
 import { assertEquals } from 'jsr:@std/assert'
-import { ruleInitFunc } from './init.ts'
 import { TestFileSystem } from '../util.test.ts'
+import { ruleInitFunc } from './init.ts'
 
 Deno.test('rule init should not create the file if it exists', async () => {
   const rule = {
