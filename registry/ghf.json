@@ -65,6 +65,15 @@
           "path": "lefthook.yml"
         }
       }
+    ],
+    "opencode": [
+      {
+        "type": "file",
+        "path": "opencode.json",
+        "content": {
+          "path": "opencode.json"
+        }
+      }
     ]
   }
 }
