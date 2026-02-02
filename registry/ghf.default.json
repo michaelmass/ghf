@@ -25,10 +25,6 @@
     {
       "type": "preset",
       "name": "lefthook"
-    },
-    {
-      "type": "preset",
-      "name": "opencode"
     }
   ]
 }
