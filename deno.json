@@ -6,6 +6,6 @@
     "./cli": "./src/cli.ts"
   },
   "publish": {
-    "exclude": ["lefthook.yml", "biome.json", "LICENSE"]
+    "exclude": ["lefthook.yml", "biome.json"]
   }
 }
