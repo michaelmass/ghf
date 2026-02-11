@@ -58,3 +58,22 @@ Deno.test('rule lines should only update the file if the lines are not already t
   assertEquals(await fs.read(path1), undefined)
   assertEquals(await fs.read(path2), undefined)
 })
+
+Deno.test('rule lines should remove lines from a file if remove is true', async () => {
+  const content1 = 'line1\nline2\nline3\n'
+  const content2 = 'line1\nline2\n'
+  const path1 = 'path/to/file1'
+
+  const fs = TestFileSystem({ [path1]: content1 })
+
+  const rule1 = {
+    type: 'lines',
+    path: path1,
+    content: content2,
+    remove: true,
+  } as const
+
+  await ruleLinesFunc(rule1, fs)
+
+  assertEquals(await fs.read(path1), 'line3\n')
+})
