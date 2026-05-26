@@ -1,0 +1,72 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "import", "oxc", "promise", "node", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn",
+    "style": "off",
+    "pedantic": "off",
+    "restriction": "off",
+    "nursery": "off"
+  },
+  "rules": {
+    "eqeqeq": ["error", "always"],
+    "no-var": "error",
+    "no-shadow": ["error", { "hoist": "never", "builtinGlobals": false }],
+    "prefer-const": "error",
+    "prefer-template": "warn",
+    "no-useless-concat": "warn",
+    "no-useless-rename": "warn",
+    "no-useless-return": "warn",
+    "no-else-return": "warn",
+    "object-shorthand": "warn",
+    "no-console": "warn",
+
+    "no-underscore-dangle": "off",
+    "no-await-in-loop": "off",
+
+    "typescript/no-explicit-any": "warn",
+    "typescript/consistent-type-imports": "warn",
+    "typescript/consistent-type-definitions": ["error", "type"],
+
+    "unicorn/prefer-node-protocol": "warn",
+    "unicorn/no-useless-undefined": "warn",
+    "unicorn/custom-error-definition": "warn",
+
+    "import/no-duplicates": "warn",
+    "import/no-named-export": "off",
+    "import/group-exports": "off",
+    "import/exports-last": "off",
+    "import/prefer-default-export": "off",
+    "import/no-namespace": "off",
+    "import/no-nodejs-modules": "error",
+
+    "promise/avoid-new": "off",
+    "promise/prefer-await-to-then": "off",
+    "promise/prefer-await-to-callbacks": "off",
+
+    "vitest/no-conditional-expect": "off",
+    "jest/no-conditional-expect": "off",
+    "vitest/require-to-throw-message": "off",
+    "jest/require-to-throw-message": "off"
+  },
+  "overrides": [
+    {
+      "files": [],
+      "rules": {
+        "typescript/no-explicit-any": "off",
+        "import/no-nodejs-modules": "off",
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["scripts/**/*.mjs", "scripts/**/*.js"],
+      "rules": {
+        "import/no-nodejs-modules": "off",
+        "no-console": "off"
+      }
+    }
+  ],
+  "ignorePatterns": ["dist", "node_modules"]
+}

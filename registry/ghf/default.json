@@ -16,11 +16,7 @@
     },
     {
       "type": "preset",
-      "name": "ci-deno"
-    },
-    {
-      "type": "preset",
-      "name": "lefthook"
+      "name": "vscode-ci-deno"
     }
   ]
 }

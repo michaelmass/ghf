@@ -3,7 +3,7 @@
     {
       "type": "file",
       "path": "LICENSE",
-      "content": "test/data/LICENSE"
+      "content": { "path": "test/data/LICENSE" }
     }
   ]
 }

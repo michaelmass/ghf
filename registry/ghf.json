@@ -65,7 +65,7 @@
         }
       }
     ],
-    "ci-deno": [
+    "vscode-ci-deno": [
       {
         "type": "merge",
         "path": ".vscode/settings.json",
@@ -75,12 +75,30 @@
         }
       }
     ],
-    "lefthook": [
+    "vscode-deno": [
+      {
+        "type": "file",
+        "path": ".vscode/settings.json",
+        "content": {
+          "path": "vscode-settings-deno.json"
+        }
+      }
+    ],
+    "lefthook-deno": [
       {
         "type": "init",
         "path": "lefthook.yml",
         "content": {
-          "path": "lefthook.yml"
+          "path": "lefthook-deno.yml"
+        }
+      }
+    ],
+    "deno-json": [
+      {
+        "type": "init",
+        "path": "deno.json",
+        "content": {
+          "path": "deno.json"
         }
       }
     ]
