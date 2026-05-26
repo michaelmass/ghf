@@ -65,13 +65,22 @@
         }
       }
     ],
-    "ci-deno": [
+    "vscode-ci-deno": [
       {
         "type": "merge",
         "path": ".vscode/settings.json",
         "mergeArrays": true,
         "content": {
           "path": "vscode-settings.json"
+        }
+      }
+    ],
+    "vscode-deno": [
+      {
+        "type": "file",
+        "path": ".vscode/settings.json",
+        "content": {
+          "path": "vscode-settings-deno.json"
         }
       }
     ],

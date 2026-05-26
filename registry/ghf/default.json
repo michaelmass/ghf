@@ -16,7 +16,7 @@
     },
     {
       "type": "preset",
-      "name": "ci-deno"
+      "name": "vscode-ci-deno"
     }
   ]
 }
