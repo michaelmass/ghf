@@ -1,3 +1,4 @@
+import { diff } from './deps.ts'
 import { removeIfExists, writeTextFile } from './fs.ts'
 import { log } from './logger.ts'
 
@@ -26,8 +27,10 @@ type ApplyPlanOptions = {
 }
 
 export async function applyPlans(plans: Plan[], opts: ApplyPlanOptions) {
+  const action = opts.dryRun ? 'dry-run' : 'done'
+
   if (plans.length === 0) {
-    log.debug('no-op', 'no changes to apply')
+    log.positive(action, 'no changes')
     return
   }
 
@@ -42,7 +45,6 @@ export async function applyPlans(plans: Plan[], opts: ApplyPlanOptions) {
   }
 
   const summary = `${counts.create} created, ${counts.update} updated, ${counts.remove} removed`
-  const action = opts.dryRun ? 'dry-run' : 'done'
   log.positive(action, summary)
 }
 
@@ -75,18 +77,25 @@ export async function applyPlan(plan: Plan, opts: ApplyPlanOptions) {
 const logDiff = (oldContent: string, newContent: string) => {
   const oldLines = oldContent.split('\n')
   const newLines = newContent.split('\n')
-  const oldSet = new Set(oldLines)
-  const newSet = new Set(newLines)
+  const parts = diff(oldLines, newLines)
 
-  for (const line of oldLines) {
-    if (!newSet.has(line)) {
-      log.error('-', line)
+  let added = 0
+  let removed = 0
+
+  for (const part of parts) {
+    switch (part.type) {
+      case 'added':
+        log.positive('+', part.value)
+        added += 1
+        break
+      case 'removed':
+        log.error('-', part.value)
+        removed += 1
+        break
     }
   }
 
-  for (const line of newLines) {
-    if (!oldSet.has(line)) {
-      log.positive('+', line)
-    }
+  if (added + removed > 0) {
+    log.debug('diff', `${added} added, ${removed} removed`)
   }
 }
