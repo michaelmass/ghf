@@ -9,6 +9,14 @@
     {
       "type": "preset",
       "name": "oxfmt"
+    },
+    {
+      "type": "preset",
+      "name": "lefthook-deno"
+    },
+    {
+      "type": "preset",
+      "name": "deno-json"
     }
   ]
 }

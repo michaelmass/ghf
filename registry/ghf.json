@@ -75,12 +75,21 @@
         }
       }
     ],
-    "lefthook": [
+    "lefthook-deno": [
       {
         "type": "init",
         "path": "lefthook.yml",
         "content": {
-          "path": "lefthook.yml"
+          "path": "lefthook-deno.yml"
+        }
+      }
+    ],
+    "deno-json": [
+      {
+        "type": "init",
+        "path": "deno.json",
+        "content": {
+          "path": "deno.json"
         }
       }
     ]
