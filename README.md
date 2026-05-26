@@ -8,35 +8,39 @@ This utility is useful when you want to keep a file in sync with all your projec
 
 You want to have a `.gitignore` file synced with all your projects.
 
-The `.ghf.json` file will look like this:
+Run `ghf init` to scaffold a `.ghf.ts` config (use `--format json` or `--format yaml` if you prefer). The TypeScript config looks like this:
 
-```json
-{
-  "rules": [
+```ts
+import type { Config } from './.ghf.type'
+
+export default {
+  rules: [
     {
-      "type": "lines",
-      "path": ".gitignore",
-      "content": ["node_modules", "dist"]
-    }
-  ]
-}
+      type: 'lines',
+      path: '.gitignore',
+      content: 'node_modules\ndist',
+    },
+  ],
+} satisfies Config
 ```
 
-When you run `ghf sync` in your repository, the `.gitignore` file will be updated by adding the `node_modules` and `dist` lines if they are not already present.
+When you run `ghf apply` (aliases: `ghf sync`, `ghf run`) in your repository, the `.gitignore` file will be updated by adding the `node_modules` and `dist` lines if they are not already present.
 
-The power of this utility lies in having a remote `.ghf.json` file that you can update, and all your repositories will be updated automatically.
+The power of this utility lies in having a remote config file that you can update, and all your repositories will be updated automatically.
 
-```json
-{
-  "extends": ["https://raw.githubusercontent.com/username/repo/main/.ghf.json"] // This will be fetched and append the rules to the current rules at the beginning of the array of rules
-}
+```ts
+export default {
+  extends: ['https://raw.githubusercontent.com/username/repo/main/.ghf.json'],
+} satisfies Config
 ```
 
 Even better, you can use a remote file directly.
 
 ```bash
-ghf apply --config=https://raw.githubusercontent.com/username/repo/main/ghf.default.json
+ghf apply --config=https://raw.githubusercontent.com/username/repo/main/default.json
 ```
+
+To check what would change without applying, use `ghf apply --dry-run` or `ghf check` (which exits non-zero if there are pending changes — handy for CI).
 
 ## Rules
 
@@ -66,10 +70,10 @@ This is the list of all the possible rules that can be used to describe the oper
 
 `merge` rule merges the structured content of a file with the provided structured content. This will do a merge of data structures like JSON & YAML.
 
-### exec
+### part
 
-`exec` rule executes a command in the file system. This is useful to execute commands in the file system.
+`part` rule ensures a snippet of content is present in a file. The `strategy` option controls where the snippet is checked and inserted: `start` (prepend if missing), `end` (append if missing), or `content` (append if not found anywhere — the default). Unlike `lines`, this is exact-string matching, so it works for multi-line snippets.
 
-### Liscense
+## License
 
 [MIT](LICENSE)

@@ -4,7 +4,7 @@ export const configSchema = z
   .object({
     WORKDIR: z.string().default('.'),
     DRY_RUN: z.string().default('false'),
-    CONFIG_FILE: z.string().default('.ghf.json'),
+    CONFIG_FILE: z.string().default(''),
   })
   .transform(({ WORKDIR, DRY_RUN, CONFIG_FILE }) => ({
     dir: WORKDIR,
@@ -14,7 +14,14 @@ export const configSchema = z
 
 export type Config = z.infer<typeof configSchema>
 
-export const getConfig = (config: Partial<Config> = {}) => ({
-  ...configSchema.parse(Deno.env.toObject()),
-  ...config,
-})
+export const getConfig = (cli: Partial<Config> = {}): Config => {
+  const merged: Config = configSchema.parse(Deno.env.toObject())
+
+  for (const [key, value] of Object.entries(cli)) {
+    if (value !== undefined) {
+      ;(merged as Record<string, unknown>)[key] = value
+    }
+  }
+
+  return merged
+}
