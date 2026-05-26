@@ -1,4 +1,5 @@
 import { z } from './deps.ts'
+import { fetchText } from './url.ts'
 
 export const contentSchema = z.union([
   z.object({
@@ -12,14 +13,13 @@ export const contentSchema = z.union([
 
 export type Content = z.infer<typeof contentSchema>
 
-export const loadContent = async (content: Content) => {
+export const loadContent = (content: Content) => {
   if (typeof content === 'string') {
     return content
   }
 
   if ('url' in content) {
-    const response = await fetch(content.url)
-    return response.text()
+    return fetchText(content.url)
   }
 
   return Deno.readTextFile(content.path)
