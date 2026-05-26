@@ -1,7 +1,25 @@
 {
   "$schema": "./schema.json",
   "presets": {
-    "liscense-mit": [
+    "oxlint": [
+      {
+        "type": "file",
+        "path": ".oxlintrc.json",
+        "content": {
+          "path": ".oxlintrc.json"
+        }
+      }
+    ],
+    "oxfmt": [
+      {
+        "type": "file",
+        "path": ".oxfmtrc.json",
+        "content": {
+          "path": ".oxfmtrc.json"
+        }
+      }
+    ],
+    "license-mit": [
       {
         "type": "file",
         "path": "LICENSE",

@@ -1,6 +1,6 @@
 {
-  "$schema": "./schema.json",
-  "extends": ["./ghf.json"],
+  "$schema": "../schema.json",
+  "extends": ["../ghf.json"],
   "rules": [
     {
       "type": "preset",
@@ -9,10 +9,6 @@
     {
       "type": "preset",
       "name": "tiltfile-init"
-    },
-    {
-      "type": "preset",
-      "name": "biome"
     },
     {
       "type": "preset",
