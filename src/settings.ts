@@ -14,72 +14,114 @@ export const settingsSchema = z.object({
 
 export type Settings = z.infer<typeof settingsSchema>
 
-const findSettingsFile = async () => {
-  const files = ['.ghf.ts', 'ghf.ts', '.ghf.json', 'ghf.json', '.ghf.js', 'ghf.js', '.ghf.yaml', 'ghf.yaml', '.ghf.yml', 'ghf.yml']
+const SETTINGS_FILES = ['.ghf.ts', 'ghf.ts', '.ghf.json', 'ghf.json', '.ghf.js', 'ghf.js', '.ghf.yaml', 'ghf.yaml', '.ghf.yml', 'ghf.yml']
 
-  for (const file of files) {
+const findSettingsFile = async () => {
+  for (const file of SETTINGS_FILES) {
     if (await fileExists(file)) {
       return file
     }
   }
 
-  throw new Error('No settings file found')
+  throw new Error(`No settings file found in the current directory. Looked for: ${SETTINGS_FILES.join(', ')}. Run \`ghf init\` to create one, or pass --config <path|url>.`)
 }
 
-export const loadSettings = async (path: string) => {
+const formatZodError = (error: z.ZodError): string => {
+  return error.issues
+    .map(issue => {
+      const path = issue.path.length ? issue.path.join('.') : '<root>'
+      return `  - ${path}: ${issue.message}`
+    })
+    .join('\n')
+}
+
+type LoadContext = {
+  cache: Map<string, Settings>
+  visiting: Set<string>
+}
+
+export const loadSettings = (path: string): Promise<Settings> => {
+  return loadSettingsInternal(path, { cache: new Map(), visiting: new Set() })
+}
+
+const loadSettingsInternal = async (path: string, ctx: LoadContext): Promise<Settings> => {
   const filepath = path === '' ? await findSettingsFile() : path
-  const isRemote = filepath.startsWith('https://')
 
-  const content = isRemote ? await fetchText(filepath, 'settings') : await Deno.readTextFile(filepath)
+  const cached = ctx.cache.get(filepath)
+  if (cached) {
+    return cached
+  }
 
-  const extension = filepath.split('.').pop() ?? ''
+  if (ctx.visiting.has(filepath)) {
+    const chain = [...ctx.visiting, filepath].join(' -> ')
+    throw new Error(`Cyclic extends detected: ${chain}`)
+  }
 
-  let data: unknown
+  ctx.visiting.add(filepath)
 
   try {
-    data = await parse(content, extension)
-  } catch (cause) {
-    throw new Error(`Failed to parse settings from ${filepath} as ${extension}: ${cause instanceof Error ? cause.message : String(cause)}`, { cause })
-  }
+    const isRemote = filepath.startsWith('https://')
 
-  const settings = settingsSchema.parse(data)
+    const content = isRemote ? await fetchText(filepath, 'settings') : await Deno.readTextFile(filepath)
 
-  if (!settings.rules) {
-    settings.rules = []
-  }
+    const extension = filepath.split('.').pop() ?? ''
 
-  if (!settings.presets) {
-    settings.presets = {}
-  }
+    let data: unknown
 
-  if (!settings.extends) {
-    settings.extends = []
-  }
+    try {
+      data = await parse(content, extension)
+    } catch (cause) {
+      throw new Error(`Failed to parse settings from ${filepath} as ${extension}: ${cause instanceof Error ? cause.message : String(cause)}`, { cause })
+    }
 
-  const presetEntries = Object.entries(settings.presets ?? {})
+    const result = settingsSchema.safeParse(data)
 
-  for (const [_, rules] of presetEntries) {
-    for (const rule of rules) {
-      if (rule.type === 'preset') {
-        throw new Error('Presets cannot contain other presets')
+    if (!result.success) {
+      throw new Error(`Invalid settings in ${filepath}:\n${formatZodError(result.error)}`, { cause: result.error })
+    }
+
+    const settings = result.data
+
+    if (!settings.rules) {
+      settings.rules = []
+    }
+
+    if (!settings.presets) {
+      settings.presets = {}
+    }
+
+    if (!settings.extends) {
+      settings.extends = []
+    }
+
+    const presetEntries = Object.entries(settings.presets ?? {})
+
+    for (const [_, rules] of presetEntries) {
+      for (const rule of rules) {
+        if (rule.type === 'preset') {
+          throw new Error('Presets cannot contain other presets')
+        }
       }
     }
-  }
 
-  if (isRemote) {
-    const remote = filepath.substring(0, filepath.lastIndexOf('/'))
-    setupRemoteRules(settings, remote)
-  }
-
-  if (settings.extends?.length) {
-    for (const extend of settings.extends) {
-      const extendedSettings = await loadSettings(extend)
-      settings.presets = { ...extendedSettings.presets, ...settings.presets }
-      settings.rules?.unshift(...(extendedSettings.rules ?? []))
+    if (isRemote) {
+      const remote = filepath.substring(0, filepath.lastIndexOf('/'))
+      setupRemoteRules(settings, remote)
     }
-  }
 
-  return settings
+    if (settings.extends?.length) {
+      for (const extend of settings.extends) {
+        const extendedSettings = await loadSettingsInternal(extend, ctx)
+        settings.presets = { ...extendedSettings.presets, ...settings.presets }
+        settings.rules?.unshift(...(extendedSettings.rules ?? []))
+      }
+    }
+
+    ctx.cache.set(filepath, settings)
+    return settings
+  } finally {
+    ctx.visiting.delete(filepath)
+  }
 }
 
 const setupRemoteRules = (settings: Settings, remote: string) => {
