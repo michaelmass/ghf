@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema.json",
+  "extends": ["../ghf.json"],
+  "rules": [
+    {
+      "type": "preset",
+      "name": "oxlint"
+    },
+    {
+      "type": "preset",
+      "name": "oxfmt"
+    }
+  ]
+}
