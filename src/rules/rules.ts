@@ -1,5 +1,6 @@
 import { exists, z } from '../deps.ts'
 import { FileSystem } from '../filesystem.ts'
+import { readTextFileIfExists } from '../fs.ts'
 import type { Plan } from '../plan.ts'
 import type { Settings } from '../settings.ts'
 import { ruleDeleteFunc, ruleDeleteSchema } from './delete.ts'
@@ -71,7 +72,7 @@ export const planRules = async (settings: Settings): Promise<Plan[]> => {
       plans.push({ type: 'create', path, content })
     }
 
-    const old = await Deno.readTextFile(path).catch(() => undefined)
+    const old = await readTextFileIfExists(path)
 
     if (old !== content) {
       plans.push({ type: 'update', path, old, new: content })

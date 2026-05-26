@@ -1,3 +1,5 @@
+import { readTextFileIfExists } from './fs.ts'
+
 /**
  * A simple intermediate layer to interact with the file system in a more controlled way.
  * The FileSystem never writes to the disk, it only writes to an in-memory object.
@@ -42,7 +44,7 @@ export const FileSystem = (): FileSystem => {
   const fileSystem: Record<string, string | null> = {}
 
   return {
-    fetch: async (path: string) => fileSystem[path] ?? (await Deno.readTextFile(path).catch(() => undefined)),
+    fetch: async (path: string) => fileSystem[path] ?? (await readTextFileIfExists(path)),
     reset: (path: string) => void delete fileSystem[path],
     entries: () => Object.entries(fileSystem),
     read: (path: string) => fileSystem[path],

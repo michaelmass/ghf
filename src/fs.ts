@@ -23,3 +23,14 @@ export async function removeIfExists(filepath: string) {
     await Deno.remove(filepath)
   }
 }
+
+export async function readTextFileIfExists(filepath: string): Promise<string | undefined> {
+  try {
+    return await Deno.readTextFile(filepath)
+  } catch (error) {
+    if (error instanceof Deno.errors.NotFound) {
+      return
+    }
+    throw error
+  }
+}
