@@ -3,7 +3,7 @@ import { fileExists } from './fs.ts'
 import { parse } from './parse.ts'
 import { type Rule, ruleSchema } from './rules/index.ts'
 import type { Content } from './schemas.ts'
-import { normalizeUrl } from './url.ts'
+import { fetchText, normalizeUrl } from './url.ts'
 
 export const settingsSchema = z.object({
   $schema: z.string().optional(),
@@ -30,11 +30,17 @@ export const loadSettings = async (path: string) => {
   const filepath = path === '' ? await findSettingsFile() : path
   const isRemote = filepath.startsWith('https://')
 
-  const content = isRemote ? await (await fetch(filepath)).text() : await Deno.readTextFile(filepath)
+  const content = isRemote ? await fetchText(filepath, 'settings') : await Deno.readTextFile(filepath)
 
-  const extension = filepath.split('.').pop()
+  const extension = filepath.split('.').pop() ?? ''
 
-  const data = await parse(content, extension ?? '')
+  let data: unknown
+
+  try {
+    data = await parse(content, extension)
+  } catch (cause) {
+    throw new Error(`Failed to parse settings from ${filepath} as ${extension}: ${cause instanceof Error ? cause.message : String(cause)}`, { cause })
+  }
 
   const settings = settingsSchema.parse(data)
 
@@ -68,7 +74,7 @@ export const loadSettings = async (path: string) => {
   if (settings.extends?.length) {
     for (const extend of settings.extends) {
       const extendedSettings = await loadSettings(extend)
-      settings.presets = { ...(extendedSettings.presets ?? {}), ...(settings.presets ?? {}) }
+      settings.presets = { ...extendedSettings.presets, ...settings.presets }
       settings.rules?.unshift(...(extendedSettings.rules ?? []))
     }
   }
