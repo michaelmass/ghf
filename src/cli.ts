@@ -80,7 +80,7 @@ await new Command()
     if (outfile) {
       await writeTextFile(outfile, json)
     } else {
-      // biome-ignore lint/suspicious/noConsole: this output the schema to the console
+      // oxlint-disable-next-line no-console
       console.log(json)
     }
   })
@@ -93,7 +93,7 @@ await new Command()
     if (outfile) {
       await writeTextFile(outfile, `${type}\n`)
     } else {
-      // biome-ignore lint/suspicious/noConsole: this output the schema to the console
+      // oxlint-disable-next-line no-console
       console.log(type)
     }
   })
@@ -107,7 +107,7 @@ await new Command()
     if (outfile) {
       await writeTextFile(outfile, json)
     } else {
-      // biome-ignore lint/suspicious/noConsole: this output the schema to the console
+      // oxlint-disable-next-line no-console
       console.log(json)
     }
   })

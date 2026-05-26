@@ -20,28 +20,28 @@ export const getLogLevel = (): LogLevel => currentLevel
 
 const enabled = (level: LogLevel) => levelRank[currentLevel] >= levelRank[level]
 
-// biome-ignore lint/suspicious/noConsole: this function is used for debug logging
 const debug = (action: string, message: string, subject?: string) => {
   if (!enabled('debug')) return
+  // oxlint-disable-next-line no-console
   console.log(`${gray(action)} ${message} ${subject ? cyan(subject) : ''}`)
 }
 
-// biome-ignore lint/suspicious/noConsole: this function is used for positive logging
 const positive = (action: string, message: string, subject?: string) => {
   if (!enabled('info')) return
+  // oxlint-disable-next-line no-console
   console.log(`${green(action)} ${message} ${subject ? cyan(subject) : ''}`)
 }
 
-// biome-ignore lint/suspicious/noConsole: this function is used for neutral logging
 const neutral = (action: string, message: string, subject?: string) => {
   if (!enabled('info')) return
+  // oxlint-disable-next-line no-console
   console.log(`${yellow(action)} ${message} ${subject ? cyan(subject) : ''}`)
 }
 
 const error = (action: string, message: string, subject?: string) => {
   const msg = `${red(action)} ${message} ${subject ? cyan(subject) : ''}`
   if (enabled('error')) {
-    // biome-ignore lint/suspicious/noConsole: this function is used specifically for logging errors
+    // oxlint-disable-next-line no-console
     console.error(msg)
   }
   return msg

@@ -2,10 +2,10 @@ pre-commit:
   commands:
     format:
       glob: '*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc}'
-      run: deno task fmt:check
+      run: deno task fmt:check {staged_files}
     lint:
       glob: '*.{js,jsx,ts,tsx,mjs,cjs}'
-      run: deno task lint
+      run: deno task lint {staged_files}
     typecheck:
       glob: '*.{ts,tsx}'
       run: deno check ./src/cli.ts
