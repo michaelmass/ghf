@@ -31,7 +31,7 @@
     "typescript/consistent-type-definitions": ["error", "type"],
 
     "unicorn/prefer-node-protocol": "warn",
-    "unicorn/no-useless-undefined": "warn",
+    "unicorn/no-useless-undefined": "off",
     "unicorn/custom-error-definition": "warn",
 
     "import/no-duplicates": "warn",
