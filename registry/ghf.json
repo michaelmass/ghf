@@ -77,7 +77,7 @@
     ],
     "lefthook": [
       {
-        "type": "file",
+        "type": "init",
         "path": "lefthook.yml",
         "content": {
           "path": "lefthook.yml"
