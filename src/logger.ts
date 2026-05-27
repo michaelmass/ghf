@@ -1,4 +1,4 @@
-import { cyan, gray, green, red, yellow } from 'https://deno.land/std@0.200.0/fmt/colors.ts'
+import { cyan, gray, green, red, yellow } from 'jsr:@std/fmt@1/colors'
 
 export const logLevels = ['silent', 'error', 'info', 'debug'] as const
 export type LogLevel = (typeof logLevels)[number]
