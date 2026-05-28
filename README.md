@@ -34,6 +34,14 @@ export default {
 } satisfies Config
 ```
 
+You can also use the built-in `@ghf` registry to reference the bundled configs without a full URL — `@ghf/default.json` resolves to `https://michaelmass.github.io/ghf/ghf/default.json`.
+
+```ts
+export default {
+  extends: ['@ghf/default.json'],
+} satisfies Config
+```
+
 Even better, you can use a remote file directly.
 
 ```bash

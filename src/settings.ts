@@ -16,6 +16,23 @@ export type Settings = z.infer<typeof settingsSchema>
 
 const SETTINGS_FILES = ['.ghf.ts', 'ghf.ts', '.ghf.json', 'ghf.json', '.ghf.js', 'ghf.js', '.ghf.yaml', 'ghf.yaml', '.ghf.yml', 'ghf.yml']
 
+export const REGISTRIES: Record<string, string> = {
+  '@ghf': 'https://michaelmass.github.io/ghf/ghf',
+}
+
+export const resolveRegistry = (path: string): string => {
+  if (!path.startsWith('@')) return path
+  const slash = path.indexOf('/')
+  const name = slash === -1 ? path : path.slice(0, slash)
+  const rest = slash === -1 ? '' : path.slice(slash)
+  const base = REGISTRIES[name]
+  if (!base) {
+    const known = Object.keys(REGISTRIES).join(', ')
+    throw new Error(`Unknown registry "${name}" in "${path}". Known registries: ${known}`)
+  }
+  return `${base}${rest}`
+}
+
 const findSettingsFile = async () => {
   for (const file of SETTINGS_FILES) {
     if (await fileExists(file)) {
@@ -45,7 +62,7 @@ export const loadSettings = (path: string): Promise<Settings> => {
 }
 
 const loadSettingsInternal = async (path: string, ctx: LoadContext): Promise<Settings> => {
-  const filepath = path === '' ? await findSettingsFile() : path
+  const filepath = path === '' ? await findSettingsFile() : resolveRegistry(path)
 
   const cached = ctx.cache.get(filepath)
   if (cached) {
@@ -135,7 +152,11 @@ const setupRemoteRules = (settings: Settings, remote: string) => {
     }
   }
 
-  settings.extends = settings.extends?.map(extend => (extend.startsWith('https://') ? extend : normalizeUrl(`${remote}/${extend}`))) ?? []
+  settings.extends =
+    settings.extends?.map(extend => {
+      const resolved = resolveRegistry(extend)
+      return resolved.startsWith('https://') ? resolved : normalizeUrl(`${remote}/${resolved}`)
+    }) ?? []
 }
 
 const updateRuleWithRemote = (rule: Rule, remote: string) => {
