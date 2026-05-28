@@ -23,7 +23,7 @@ const resolveLogLevel = (opts: { logLevel?: LogLevel; quiet?: boolean; verbose?:
   return opts.logLevel ?? 'info'
 }
 
-const defaultExtends = 'https://michaelmass.github.io/ghf/ghf/default.json'
+const defaultExtends = '@ghf/default.json'
 
 const initFormats = ['ts', 'json', 'yaml'] as const
 type InitFormat = (typeof initFormats)[number]
