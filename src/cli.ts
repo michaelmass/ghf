@@ -132,6 +132,11 @@ await new Command()
       console.log(json)
     }
   })
+  .command('version', 'show the current version')
+  .action(() => {
+    // oxlint-disable-next-line no-console
+    console.log(data.version)
+  })
   .command('init', 'initializes the ghf config file')
   .type('init-format', initFormatType)
   .option('-o, --outfile <outfile:string>', 'Outfile to write to (ie: .ghf.ts)')
