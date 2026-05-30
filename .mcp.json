@@ -2,7 +2,9 @@
   "mcpServers": {
     "memelord": {
       "command": "memelord",
-      "args": ["serve"],
+      "args": [
+        "serve"
+      ],
       "env": {
         "MEMELORD_DIR": "/Users/mike/Documents/dev/michaelmass/ghf/.memelord"
       }

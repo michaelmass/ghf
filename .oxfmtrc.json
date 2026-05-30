@@ -10,5 +10,5 @@
   "printWidth": 320,
   "endOfLine": "lf",
   "insertFinalNewline": true,
-  "ignorePatterns": ["dist", "node_modules"]
+  "ignorePatterns": ["dist", "node_modules", ".mcp.json", "opencode.json", "mcporter.json"]
 }
