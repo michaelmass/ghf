@@ -5,4 +5,7 @@ extension_tiltfile
 node_modules
 dist
 .ghf.type.ts
-.cachebro
+.cachebro/
+.memelord/
+.codemogger/
+.codex/
