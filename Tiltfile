@@ -27,6 +27,8 @@ default_settings()
 
 local('deno run -A jsr:@michaelmass/ghf/cli type -o=.ghf.type.ts', quiet=True)
 local('deno run -A jsr:@michaelmass/ghf/cli apply', quiet=True)
+local('codemogger index .', quiet=True)
+local('memelord init', quiet=True)
 local('lefthook install', quiet=True)
 
 resource(
